@@ -1,4 +1,4 @@
-# oauthkit  <img src="http://i.imgur.com/KBiT8j4.png" height="100"/> 
+# oauthkit  <img src="http://i.imgur.com/KBiT8j4.png" height="200"/> 
 
 A convenience library for Android that uses signpost and an okhttp client to complete OAuth 1.0 easily with an RxJava adapted Retrofit service.
 
