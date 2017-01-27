@@ -24,8 +24,8 @@ public class OAuthBaseClient {
     protected int requestIntentFlags = -1;
     protected static HashMap<Class<? extends OAuthBaseClient>, OAuthBaseClient> instances = new HashMap();
     private static OAuthBaseClient instance;
-    private static final String baseUrl = BuildConfig.baseUrl;
-    private static String callbackUrl = BuildConfig.callbackUrl;
+    private String baseUrl;
+    private String callbackUrl;
 
     public SharedPreferences getPrefs() {
         return this.prefs;
@@ -36,16 +36,23 @@ public class OAuthBaseClient {
         return this.accessHandler;
     }
 
-    public static OAuthBaseClient getInstance(Context context, OAuthBaseClient.OAuthAccessHandler handler) {
+    public static OAuthBaseClient getInstance(Context context,
+                                              OAuthBaseClient.OAuthAccessHandler handler) {
         if (instance == null) {
-            instance = new OAuthBaseClient(context, handler);
+            instance = new OAuthBaseClient(context, OAuthConfig.getInstance(), handler);
         }
         return instance;
     }
 
+    public static OAuthBaseClient getInstance() {
+        return instance;
+    }
+
     //@singleton
-    private OAuthBaseClient(Context context, OAuthBaseClient.OAuthAccessHandler handler) {
+    private OAuthBaseClient(Context context, OAuthConfig oAuthConfig, OAuthAccessHandler handler) {
         this.context = context;
+        this.baseUrl = oAuthConfig.getBaseUrl();
+        this.callbackUrl = oAuthConfig.getCallbackUrl();
         this.accessHandler = handler;
         this.context = context;
         this.prefs = this.context.getSharedPreferences("OAuthKit_Prefs", 0);
@@ -86,7 +93,7 @@ public class OAuthBaseClient {
             public void onFailure(Exception e) {
                 OAuthBaseClient.this.accessHandler.onLoginFailure(e);
             }
-        }, this.prefs);
+        }, oAuthConfig, this.prefs);
 
 
 

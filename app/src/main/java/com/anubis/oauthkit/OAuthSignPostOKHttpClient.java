@@ -22,16 +22,22 @@ public class OAuthSignPostOKHttpClient {    //
     private OAuthSignPostOKHttpClient.OAuthTokenHandler handler;
     private SharedPreferences prefs;
 
-    private static String callbackUrl = BuildConfig.callbackUrl;
-    private static final String consumerKey = BuildConfig.consumerKey;
-    private static final String consumerSecret = BuildConfig.consumerSecret;
-    private static final String requestTokenEndpoint = BuildConfig.requestTokenEndpoint;
-    private static final String accessTokenEndpoint = BuildConfig.accessTokenEndpoint;
-    private static final String authorizationEndpoint = BuildConfig.authorizationEndpoint;
+    private String callbackUrl;
+    private String consumerKey;
+    private String consumerSecret;
+    private String requestTokenEndpoint;
+    private String accessTokenEndpoint;
+    private String authorizationEndpoint;
 
 
-    public OAuthSignPostOKHttpClient( OAuthSignPostOKHttpClient.OAuthTokenHandler handler, SharedPreferences prefs) {
+    public OAuthSignPostOKHttpClient(OAuthTokenHandler handler, OAuthConfig oAuthConfig, SharedPreferences prefs) {
         this.handler = handler;
+        this.callbackUrl = oAuthConfig.getCallbackUrl();
+        this.consumerKey = oAuthConfig.getConsumerKey();
+        this.consumerSecret = oAuthConfig.getConsumerSecret();
+        this.requestTokenEndpoint = oAuthConfig.getRequestTokenEndpoint();
+        this.accessTokenEndpoint = oAuthConfig.getAccessTokenEndpoint();
+        this.authorizationEndpoint = oAuthConfig.getAuthorizationEndpoint();
         this.prefs = prefs;
         if (callbackUrl == null) {
             callbackUrl = "oob";
