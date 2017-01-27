@@ -1,42 +1,23 @@
-apply plugin: 'com.android.library'
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.3"
-
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
-        def propsFile = rootProject.file('local.properties')
-        def props = new Properties()
-        props.load(new FileInputStream(propsFile))
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "baseUrl",  props['baseUrl']
-        buildConfigField "String", "callbackUrl", props['callbackUrl']
-        buildConfigField "String", "consumerKey", props['consumerKey']
-        buildConfigField "String", "consumerSecret", props['consumerSecret']
-        buildConfigField "String", "requestTokenEndpoint", props['requestTokenEndpoint']
-        buildConfigField "String", "accessTokenEndpoint", props['accessTokenEndpoint']
-        buildConfigField "String", "authorizationEndpoint", props['authorizationEndpoint']
+buildscript {
+    repositories {
+        jcenter()
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0-beta2'
 
-        }
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-dependencies {
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
 
-    compile 'se.akerfeldt:okhttp-signpost:1.1.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
