@@ -50,6 +50,10 @@ public class OAuthBaseClient {
 
     //@singleton
     private OAuthBaseClient(Context context, OAuthConfig oAuthConfig, OAuthAccessHandler handler) {
+        if (oAuthConfig == null) {
+            ConfigException e = new ConfigException("oAuthConfig has not been initialized!");
+            e.printStackTrace();
+        }
         this.context = context;
         this.baseUrl = oAuthConfig.getBaseUrl();
         this.callbackUrl = oAuthConfig.getCallbackUrl();
@@ -142,6 +146,11 @@ public class OAuthBaseClient {
         void onLoginFailure(Exception var1);
     }
 
+    private class ConfigException extends Exception {
+        ConfigException(String msg) {
+            super(msg);
+        }
+    }
 
 }
 
